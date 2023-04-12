@@ -15,6 +15,7 @@
 		"@typescript-eslint/parser": "^5.58.0",
 		"cli": "link:@@commitlint/cli",
 		"commitlint": "^17.5.1",
+		"cz-customizable": "^7.0.0",
 		"eslint": "^8.38.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin,": "link:@typescript-eslint/eslint-plugin,",
@@ -23,5 +24,10 @@
 		"prettier": "^2.8.7",
 		"rollup": "^3.20.2",
 		"typescript": "^5.0.4"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-customizable"
+		}
 	}
 }
