@@ -16,12 +16,12 @@ export const createUpdate = <State>(action: Action<State>): Update<State> => {
 	};
 };
 
-export const createUpdateQueue = <Action>() => {
+export const createUpdateQueue = <State>() => {
 	return {
 		shared: {
 			pending: null
 		}
-	} as updateQueue<Action>;
+	} as updateQueue<State>;
 };
 
 export const enqueueUpdate = <State>(
@@ -31,11 +31,11 @@ export const enqueueUpdate = <State>(
 	updateQueue.shared.pending = update;
 };
 
-export const processUpdate = <State>(
+export const processUpdateQueue = <State>(
 	baseState: State,
 	pendingUpdate: Update<State> | null
 ): { memoizedState: State } => {
-	const result: ReturnType<typeof processUpdate<State>> = {
+	const result: ReturnType<typeof processUpdateQueue<State>> = {
 		memoizedState: baseState
 	};
 	if (pendingUpdate !== null) {
