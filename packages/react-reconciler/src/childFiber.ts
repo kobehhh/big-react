@@ -5,7 +5,7 @@ import { HostText } from './workTags';
 import { Placement } from './fiberFlags';
 
 function ChildReconciler(shouldTrack: boolean) {
-	function reconcileSingElement(
+	function reconcileSingleElement(
 		retrunFiber: FiberNode,
 		currentFiber: FiberNode | null,
 		element: ReactElement
@@ -42,7 +42,7 @@ function ChildReconciler(shouldTrack: boolean) {
 			switch (newChild.$$typeof) {
 				case REACT_ELEMENT_TYPE:
 					return placeSingleChild(
-						reconcileSingElement(returnFiber, currentFiber, newChild)
+						reconcileSingleElement(returnFiber, currentFiber, newChild)
 					);
 
 				default:

@@ -36,11 +36,17 @@ function renderRoot(root: FiberRootNode) {
 	do {
 		try {
 			workLoop();
+			break;
 		} catch (error) {
 			console.error('workLoop发生错误', error);
 			workInprogress = null;
 		}
 	} while (true);
+
+	const finishedWork = root.current.alternate;
+	root.finishedWork = finishedWork;
+
+	// commitWork(root);
 }
 
 function workLoop() {

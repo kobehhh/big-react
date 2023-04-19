@@ -50,6 +50,7 @@ function reconcileChildren(wip: FiberNode, children?: ReactElement) {
 		// update
 		wip.child = reconcileChildFibers(wip, current?.child, children);
 	} else {
+		// mount
 		wip.child = mountChildFibers(wip, null, children);
 	}
 }
