@@ -69,4 +69,4 @@ function ChildReconciler(shouldTrack: boolean) {
 }
 
 export const reconcileChildFibers = ChildReconciler(true);
-export const mountChildFibers = ChildReconciler(true);
+export const mountChildFibers = ChildReconciler(false);
