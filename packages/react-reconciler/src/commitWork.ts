@@ -1,5 +1,5 @@
 import { Container, appendChildToContariner } from 'hostConfig';
-import { FiberNode } from './fiber';
+import { FiberNode, FiberRootNode } from './fiber';
 import { MutationMask, NoFlags, Placement } from './fiberFlags';
 import { HostComponent, HostRoot, HostText } from './workTags';
 
@@ -49,11 +49,13 @@ const commitPlacement = (finishedWork: FiberNode) => {
 	// 插入操作需要知道父节点
 	const hostParent = getHostParent(finishedWork);
 
-	// 要找到finishedWork的DOM节点并且append到父节点
-	appendPlacementNodeIntoContariner(finishedWork, hostParent);
+	if (hostParent !== null) {
+		// 要找到finishedWork的DOM节点并且append到父节点
+		appendPlacementNodeIntoContariner(finishedWork, hostParent);
+	}
 };
 
-function getHostParent(fiber: FiberNode) {
+function getHostParent(fiber: FiberNode): Container | null {
 	let parent = fiber.return;
 
 	while (parent) {
@@ -64,7 +66,7 @@ function getHostParent(fiber: FiberNode) {
 		}
 
 		if (parentTag === HostRoot) {
-			return (parent.stateNode as Container).container;
+			return (parent.stateNode as FiberRootNode).container;
 		}
 
 		parent = parent.return;
@@ -73,6 +75,7 @@ function getHostParent(fiber: FiberNode) {
 	if (__DEV_) {
 		console.warn('未找到hostParent');
 	}
+	return null;
 }
 
 function appendPlacementNodeIntoContariner(
