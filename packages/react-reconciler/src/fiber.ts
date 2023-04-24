@@ -75,8 +75,8 @@ export const createWorkInProgress = (
 	if (wip === null) {
 		// 对应mount 初次加载的情况下没有对应的双缓存
 		wip = new FiberNode(current.tag, pendingProps, current.key);
-
 		wip.stateNode = current.stateNode;
+
 		wip.alternate = current;
 		current.alternate = wip;
 	} else {
@@ -100,7 +100,7 @@ export function createFiberFromElement(element: ReactElement) {
 
 	if (typeof type === 'string') {
 		fiberTag = HostComponent;
-	} else if (typeof type !== 'function' && __DEV_) {
+	} else if (typeof type !== 'function' && __DEV__) {
 		console.warn('未定义的type类型');
 	}
 

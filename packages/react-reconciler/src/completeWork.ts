@@ -10,7 +10,7 @@ import { NoFlags } from './fiberFlags';
 
 // 递归中的归阶段
 export const completeWork = (wip: FiberNode) => {
-	const newProps = wip.memoizedProps;
+	const newProps = wip.pendingProps;
 	const current = wip.alternate;
 
 	switch (wip.tag) {
@@ -41,7 +41,7 @@ export const completeWork = (wip: FiberNode) => {
 			bubbleProperties(wip);
 			return null;
 		default:
-			if (__DEV_) {
+			if (__DEV__) {
 				console.warn('未处理的completeWork', wip);
 			}
 			break;
@@ -55,7 +55,7 @@ function appendAllChildren(parent: Container, wip: FiberNode) {
 		if (node.tag === HostComponent || node.tag === HostText) {
 			appendInitialChild(parent, node?.stateNode);
 		} else if (node.child !== null) {
-			node.child.return = node.child;
+			node.child.return = node;
 			node = node.child;
 			continue;
 		}
@@ -81,7 +81,7 @@ const bubbleProperties = (wip: FiberNode) => {
 
 	while (child !== null) {
 		subtreeFlags |= child.subtreeFlags;
-		subtreeFlags |= child.subtreeFlags;
+		subtreeFlags |= child.flags;
 
 		child.return = wip;
 		child = child.sibling;

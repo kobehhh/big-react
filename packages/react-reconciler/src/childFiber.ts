@@ -4,29 +4,29 @@ import { REACT_ELEMENT_TYPE } from 'shared/ReactSymbols';
 import { HostText } from './workTags';
 import { Placement } from './fiberFlags';
 
-function ChildReconciler(shouldTrack: boolean) {
+function ChildReconciler(shouldTrackEffects: boolean) {
 	function reconcileSingleElement(
-		retrunFiber: FiberNode,
+		returnFiber: FiberNode,
 		currentFiber: FiberNode | null,
 		element: ReactElement
 	) {
 		const fiber = createFiberFromElement(element);
-		fiber.return = retrunFiber;
+		fiber.return = returnFiber;
 		return fiber;
 	}
 
 	function reconcileSingTextNode(
-		retrunFiber: FiberNode,
+		returnFiber: FiberNode,
 		currentFiber: FiberNode | null,
 		content: string | number
 	) {
 		const fiber = new FiberNode(HostText, { content }, null);
-		fiber.return = retrunFiber;
+		fiber.return = returnFiber;
 		return fiber;
 	}
 
 	function placeSingleChild(fiber: FiberNode) {
-		if (shouldTrack && fiber.alternate === null) {
+		if (shouldTrackEffects && fiber.alternate === null) {
 			fiber.flags |= Placement;
 		}
 		return fiber;
@@ -46,21 +46,22 @@ function ChildReconciler(shouldTrack: boolean) {
 					);
 
 				default:
-					if (__DEV_) {
+					if (__DEV__) {
 						console.warn('未实现的reconcile类型', newChild);
 					}
 					break;
 			}
 		}
-		// TODO 多借点的情况 ul>li*3
+		// TODO 多节点的情况 ul>li*3
 
+		// HostText
 		if (typeof newChild === 'string' || typeof newChild === 'number') {
 			return placeSingleChild(
 				reconcileSingTextNode(returnFiber, currentFiber, newChild)
 			);
 		}
 
-		if (__DEV_) {
+		if (__DEV__) {
 			console.warn('未实现的reconcile类型', newChild);
 		}
 
